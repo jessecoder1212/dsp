@@ -1,0 +1,83 @@
+// FIR LPF using Hanning Window
+
+clc;
+clear;
+
+// Filter specifications
+M  = 7;              // Filter length
+Wc = %pi/4;          // Cutoff frequency
+
+Tuo = (M-1)/2;       // Center index
+
+// Ideal LPF impulse response
+for n = 1:M
+
+    if (n == Tuo + 1)
+        hd(n) = Wc / %pi;
+    else
+        hd(n) = sin(Wc * ((n-1)-Tuo)) / (((n-1)-Tuo) * %pi);
+    end
+
+end
+
+// Hanning window
+w = window('hn', M);
+
+// FIR coefficients
+h = hd .* w;
+
+disp('Filter Coefficients');
+disp(h);
+
+// Frequency response
+[hzm, fr] = frmag(h, 256);
+
+hzm_db = 20 * log10(hzm / max(hzm));
+
+figure(1);
+plot(fr, hzm_db);
+
+xlabel('Normalized Frequency');
+ylabel('Magnitude in dB');
+
+title('Hanning Window FIR LPF Response');
+
+// Generate input signal
+fs = 10000;
+t = 0:1/fs:0.1023;
+
+x = sin(2*%pi*100*t) ...
+  + sin(2*%pi*500*t) ...
+  + sin(2*%pi*4000*t);
+
+// FIR filtering
+B = h;
+A = 1;
+
+y = filter(B, A, x);
+
+// Time domain plots
+figure(2);
+
+subplot(211);
+plot(x);
+title('Input Signal');
+
+subplot(212);
+plot(y);
+title('Filtered Signal');
+
+// FFT analysis
+X = abs(fft(x));
+Y = abs(fft(y));
+
+// Frequency domain plots
+figure(3);
+
+subplot(211);
+plot(X(1:512));
+title('Input Spectrum');
+
+subplot(212);
+plot(Y(1:512));
+title('Filtered Spectrum');
