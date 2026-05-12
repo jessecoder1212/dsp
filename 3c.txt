@@ -1,0 +1,33 @@
+/*PROGRAM FOR COMPUTING LINEAR CONVOLUTION USING ITS DEFINING 
+EQUATION*/ 
+#include<stdio.h> 
+#define npt 4 
+//global declarations 
+int n, k, y[2 * npt - 1]; 
+int x[npt], h[npt]; 
+main() { 
+// iNPUT SECTION FOR SEQUENCE x[n] 
+printf("enter%d point input sequence 1:\n", npt); 
+for (n = 0; n < npt; n++) { 
+  scanf("%d", &x[n]); 
+ } 
+// iNPUT SECTION FOR SEQUENCE h[n] 
+ printf("Enter%d point input sequence 2:\n", npt); 
+ for (n = 0; n < npt; n++) { 
+  scanf("%d", &h[n]); 
+ } 
+//SECTION FOR COMPUTING CONVOLUTION SEQUENCE Y[n] USING ITS 
+DEFINING EQUATION 
+ printf("convolution sequence y[n]=SUM(k) x(k)* y[n-k]:\n"); 
+ for (n = 0; n < (2 * npt - 1); n++) { 
+  y[n] = 0; 
+  for (k = 0; k < npt; k++) { 
+   if ((n - k) >= 0) 
+    if ((n - k) < npt) 
+     y[n] = y[n] + x[k] * h[n - k]; 
+  } 
+  printf("%d\t", y[n]); 
+ } 
+ printf("\n"); 
+ return 0; 
+}
