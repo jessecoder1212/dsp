@@ -1,0 +1,76 @@
+#include<stdio.h> 
+#include<math.h> 
+#define pi 3.142857142857 
+#define NPT 8 
+#define NSTAGE 3 
+#define NPT_BY_2 4 
+float ffr[NPT], ffi[NPT]; 
+float mag[NPT], angle[NPT]; 
+void fft(float*, float*); 
+int main() { 
+ float ar[] = { 1, 2, 3, 4, 5, 6, 7, 8 }; 
+ float ai[] = { 0, 0, 0, 0, 0, 0, 0, 0 }; 
+ int i; 
+ for (i = 0; i < NPT; i++) { 
+  ffr[i] = 0; 
+  ffi[i] = 0; 
+ } 
+ fft(ar, ai); 
+ for (i = 0; i < NPT; i++) { 
+  mag[i] = sqrt((ffr[i] * ffr[i]) + (ffi[i] * ffi[i])); 
+  angle[i] = atan2(ffi[i], ffr[i]); 
+ } 
+ return (0); 
+} 
+/*routine to compute fft*/ 
+void fft(float real[NPT], float imag[NPT]) { 
+ int i, j, k, p, g, tob, bob; 
+ float b, c, d; 
+ float tr[NPT_BY_2], ti[NPT_BY_2]; 
+ int i1, work, j2, bb[NPT]; 
+ /*TWIDLE FACTOR*/ 
+ for (i = 0; i < NPT_BY_2; i++) { 
+  tr[i] = cos(2 * pi * i / NPT); 
+  ti[i] = -sin(2 * pi * i / NPT); 
+ } 
+ /*actual fft computation*/ 
+ for (k = 0; k < NSTAGE; k++) { 
+  if (k == 0) 
+   g = 1; 
+  else 
+   g = pow(2, (k - 1)); 
+  p = pow(2, k); 
+  for (j = 0; j < p; j++) { 
+   for (i = 0; i < (NPT_BY_2 / p); i++) { 
+    tob = i + j * NPT_BY_2 / g; 
+    bob = tob + (NPT_BY_2 / p); 
+    b = real[tob] + real[bob]; 
+    c = imag[tob] + imag[bob]; 
+    real[bob] = real[tob] - real[bob]; 
+    imag[bob] = imag[tob] - imag[bob]; 
+    real[tob] = b; 
+    imag[tob] = c; 
+    d = real[bob] * tr[p * i] - imag[bob] * 
+ti[p * i]; 
+    imag[bob] = imag[bob] * tr[p * i] + 
+real[bob] * ti[p * i]; 
+    real[bob] = d; 
+   } 
+  } 
+ } 
+ /*to arrange bit reversed fft values*/ 
+ for (i = 0; i < NPT; i++) { 
+  work = 0; 
+i1 = i; 
+for (j = 0; j < NSTAGE; j++) { 
+j2 = i1 % 2; 
+work = 2 * work + j2; 
+i1 = i1 / 2; 
+} 
+bb[i] = work; 
+} 
+for (i = 0; i < NPT; i++) { 
+ffr[i] = real[bb[i]]; 
+ffi[i] = imag[bb[i]]; 
+} 
+} 
