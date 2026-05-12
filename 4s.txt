@@ -1,0 +1,13 @@
+clear; 
+clc; 
+x=input("First sequence=");     
+y=input( "Second sequence="); 
+a=fft(x); 
+b=fft(y); 
+c=a.*b; 
+disp("Output signals");  
+disp(ifft(c));  
+plot2d3(ifft(c));  
+xlabel("time index n"); 
+ylabel("amplitude"); 
+title("circular convolution"); 
