@@ -1,0 +1,14 @@
+clc;//clears command window 
+clear;//enter at start of all prog to avoid old data from work 
+space 
+a1=input("enter 1st sequence"); 
+b1=input("enter 2nd sequence"); 
+c1=conv(a1,b1); 
+     m2=length(c1)-1; 
+disp("output sequence"); 
+disp(c1); 
+ n1=0:m2; 
+     plot2d3(n1,c1); 
+xlabel("time index n"); 
+ylabel("amplitude"); 
+title("linear convolution");
