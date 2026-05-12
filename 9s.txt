@@ -1,0 +1,49 @@
+// First Order Butterworth LPF
+
+clc;
+clear;
+
+fs = 10000;          // Sampling frequency
+fc = 3000;           // Cutoff frequency
+N  = 1;              // Filter order
+
+t = 0:1/fs:0.1023;   // Time vector
+
+// Input signal
+x = sin(2*%pi*100*t) ...
+  + sin(2*%pi*500*t) ...
+  + sin(2*%pi*4000*t);
+
+// Design Butterworth LPF
+hz = iir(N,'lp','butt',fc/fs,[]);
+
+// Filter coefficients
+B = [0.5791922 0.5791922];
+A = [1 0.1583844];
+
+// Apply filter
+y = filter(B,A,x);
+
+// Time domain plots
+figure(1);
+subplot(211);
+plot(x);
+title('Input Signal');
+
+subplot(212);
+plot(y);
+title('Filtered Signal');
+
+// Frequency domain analysis
+X = abs(fft(x));
+Y = abs(fft(y));
+
+// Frequency domain plots
+figure(2);
+subplot(211);
+plot(X(1:512));
+title('Input Spectrum');
+
+subplot(212);
+plot(Y(1:512));
+title('Filtered Spectrum');
