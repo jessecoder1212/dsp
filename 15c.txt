@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <math.h>
+
+#define PI 3.1416
+
+float x[256], y[256];
+
+int main()
+{
+    float fs = 10000.0;
+    float T = 1.0 / fs;
+    float t = 0.0;
+
+    int i;
+
+    // Generate input signal
+    for(i = 0; i < 256; i++, t += T)
+    {
+        x[i] = sin(2 * PI * 117.18 * t)
+             + sin(2 * PI * 585.93 * t)
+             + sin(2 * PI * 2226.25 * t);
+    }
+
+    // FIR filter using Rectangular window coefficients
+    for(i = 6; i < 256; i++)
+    {
+        y[i] =
+              0.0450 * x[i]
+            + 0.0900 * x[i - 1]
+            + 0.1800 * x[i - 2]
+            + 0.3700 * x[i - 3]
+            + 0.1800 * x[i - 4]
+            + 0.0900 * x[i - 5]
+            + 0.0450 * x[i - 6];
+    }
+
+    return 0;
+}
