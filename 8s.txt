@@ -1,0 +1,18 @@
+clc; 
+clear; 
+x=[1 2 3 4 5 6 7 8]; 
+y = fft(x); 
+mag = abs(y); 
+phase=atan(imag(y),real(y)); 
+disp(mag); 
+disp(phase) 
+subplot(211); 
+plot2d3(mag); 
+title('Magnetude spectrum'); 
+xlabel('k--->'); 
+ylabel('Magnetude'); 
+subplot(212); 
+plot2d3(phase); 
+title('Phase spectrum’'); 
+xlabel('k--->'); 
+ylabel('Phase');
