@@ -1,0 +1,36 @@
+/*program to compute circular convolution by definition*/ 
+#include<stdio.h> 
+#define npt 4 
+//global declarations 
+ 
+Department of Electronics & Instrumentation Engineering, RIT, Blr-54. 17 | Page 
+ 
+int n, m, k, l, y[npt]; 
+int x[npt], h[npt]; 
+main() { 
+// iNPUT SECTION FOR SEQUENCE x[n] 
+ printf("enter%d point input sequence 1:\n", npt); 
+ for (n = 0; n < npt; n++) { 
+  scanf("%d", &x[n]); 
+ } 
+// iNPUT SECTION FOR SEQUENCE h[n] 
+ printf("Enter%d point input sequence 2:\n", npt); 
+ for (n = 0, l = (npt - 1); n < npt; n++, l--) { 
+  scanf("%d", &h[n]); 
+ } 
+// SECTION FOR computing circular convolution y[n] 
+ printf("circular convolution sequence 
+x3[m]=SUM(n)x1(n)*x2(m-n)modulon:\n"); 
+ for (m = 0; m < npt; m++) { 
+  y[m] = 0; 
+  for (n = 0; n < npt; n++) { 
+   if ((m - n) < 0) 
+    y[m] = y[m] + x[n] * h[npt + (m - n)]; 
+   else 
+    y[m] = y[m] + x[n] * h[m - n]; 
+  } 
+  printf("%d\t", y[m]); 
+ } 
+ printf("\n"); 
+ return 0; 
+} 
