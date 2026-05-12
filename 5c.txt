@@ -1,0 +1,37 @@
+/*PROGRAM FOR COMPUTING CROSS CORRELATION USING ITS DEFINGIN 
+EQUATION*/ 
+#include<stdio.h> 
+#define npt 4 
+//global declarations 
+//carefully note, while typing, difference between l(lower case 
+L) and numeral 1 
+int n, l,k, y[2 * npt - 1]; 
+int x[npt], h[npt]; 
+main() { 
+// iNPUT SECTION FOR SEQUENCE x[n] 
+printf("enter%d point input sequence 1:\n", npt); 
+for (n = 0; n < npt; n++) {
+scanf("%d", &x[n]); 
+ } 
+// iNPUT SECTION FOR SEQUENCE x[n] 
+ printf("Enter%d point input sequence 2:\n", npt); 
+ for (n = 0, l = (npt - 1); n < npt; n++, l--) { 
+  scanf("%d", &h[n]); 
+ } 
+//SECTION FOR COMPUTING CROSS CORRELATION SEQUENCE Y[n] USING ITS 
+DEFINING EQUATION 
+ printf("correlation sequence Rxy[1]=SUM(n) x[n]*y[n-1]:\n"); 
+ for (l = -(npt - 1), k = 0; l < npt; l++, k++) { 
+  y[k] = 0; 
+  for (n = 0; n < npt; n++) { 
+   if ((n - l) >= 0) // carefully note the lower 
+case L 
+    if ((n - l) < npt) // note the lower case 
+L. l(lower case L) and 1(numeral one) 
+     y[k] = y[k] + x[n] * h[n - l]; 
+  } 
+  printf("%d\t", y[k]); 
+ } 
+ printf("\n"); 
+ return 0; 
+}
